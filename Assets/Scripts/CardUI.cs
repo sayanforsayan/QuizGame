@@ -12,10 +12,14 @@ public class CardUI : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, ID
     private CanvasGroup canvasGroup;
     private Vector3 originalPosition;
     private Transform parentToReturnTo;
+    private RectTransform rectTransform;
+    private Canvas canvas;
 
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
+        rectTransform = GetComponent<RectTransform>();
+        canvas = transform.GetComponentInParent<Canvas>();
     }
 
     public void Setup(AnimalCardData newData)
@@ -41,7 +45,9 @@ public class CardUI : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, ID
 
     public void OnDrag(PointerEventData eventData)
     {
-        transform.position = Input.mousePosition;
+        Vector3 worldPosition;
+        RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, eventData.position, canvas.worldCamera, out worldPosition);
+        rectTransform.position = worldPosition;
     }
 
     public void OnEndDrag(PointerEventData eventData)
