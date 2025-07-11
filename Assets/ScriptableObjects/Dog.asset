@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2f1bfe65793c43778e6801777b1c1fe, type: 3}
+  m_Name: Dog
+  m_EditorClassIdentifier: 
+  animalName: 12
+  animalImage: {fileID: 21300000, guid: 9c4c851e156c8487aaac5396e8c2955a, type: 3}
+  description: The domestic dog is a domesticated descendant of wolves. The dog descended
+    from an ancient wolf ancestor that lived with humans over 15,000 years ago.
+  flightType: 1
+  insectType: 1
+  dietType: 1
+  socialType: 1
+  reproductionType: 1

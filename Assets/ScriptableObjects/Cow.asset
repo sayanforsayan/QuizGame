@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2f1bfe65793c43778e6801777b1c1fe, type: 3}
+  m_Name: Cow
+  m_EditorClassIdentifier: 
+  animalName: 10
+  animalImage: {fileID: 21300000, guid: 13f61230359824c10904f45d7e5198c2, type: 3}
+  description: "Cattle\u2014colloquially cows\u2014are domesticated mammals that
+    constitute the genus Bos, and they are most commonly classified collectively
+    as Bos taurus."
+  flightType: 1
+  insectType: 1
+  dietType: 0
+  socialType: 0
+  reproductionType: 1
