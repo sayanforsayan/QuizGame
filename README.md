@@ -1,7 +1,8 @@
 # Quiz Game
 
 # Gameplay Video
-https://drive.google.com/file/d/1fIdIF0IYxfWObUOcOHb6mm_06T0-trYC/view?usp=drive_link
+https://drive.google.com/uc?export=download&id=1fIdIF0IYxfWObUOcOHb6mm_06T0-trYC
+
 # Features
 Quiz Scene with 18 Animal Cards, 5 Categorized Attributes
 
