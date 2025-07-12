@@ -5,43 +5,67 @@ using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.SceneManagement;
 
+// Manages the quiz logic, including card spawning, attribute selection, scoring, and UI updates
 public class QuizManager : MonoBehaviour
 {
+    // Singleton instance for easy access
     public static QuizManager Instance;
+
     [Header("#--- Card Properties ---#")]
+    // List of all animal card data used in the quiz
     [SerializeField] private List<AnimalCardData> allCards;
+    // Prefab for creating animal cards
     [SerializeField] private GameObject cardPrefab;
+    // Prefab for displaying wrong cards in the result screen
     [SerializeField] private GameObject wrongCard;
+    // Parent transform to hold spawned cards
     [SerializeField] private Transform cardHolder;
 
+    // UI text to show the current attribute being sorted
     [SerializeField] private TextMeshProUGUI attributeText;
 
     [Header("#--- Animal Information ---#")]
+    // Popup panel showing animal information on click
     [SerializeField] private GameObject popupPanel;
+    // UI text for animal name in popup
     [SerializeField] private TextMeshProUGUI popupName, popupDescription;
+    // UI image for animal image in popup
     public Image popupImage;
 
     [Header("#--- Result Screen ---#")]
+    // Finish screen UI shown after quiz ends
     [SerializeField] private GameObject finishScreen;
+    // UI text displaying the final score and message
     [SerializeField] private TextMeshProUGUI scoreText;
+    // Parent transform to hold wrong cards in result screen
     [SerializeField] private Transform wrongCardHolder;
+
     [Header("#--- Bucket ---#")]
+    // Blue bucket zone reference
     [SerializeField] private BucketZone blueBucket;
+    // Red bucket zone reference
     [SerializeField] private BucketZone redBucket;
+
     [Header("#--- Button ----#")]
+    // Button to reset and reload the quiz scene
     [SerializeField] private Button resetBtn;
+
+    // Total number of cards processed and correct count
     private int totalCount = 0, correctCount;
+    // Dictionary to store wrongly placed cards with their images
     private Dictionary<string, Sprite> wrongCards = new();
 
-
+    // Sets up the singleton instance
     private void Awake() => Instance = this;
 
+    // Initializes quiz setup and button events
     void Start()
     {
         SetupQuiz();
         resetBtn.onClick.AddListener(ReloadCurrentScene);
     }
 
+    // Prepares the quiz with randomized cards and attributes
     void SetupQuiz()
     {
         RandomizeAttribute();
@@ -49,11 +73,13 @@ public class QuizManager : MonoBehaviour
         RandomlyDecide();
     }
 
+    // Displays sorting instruction text
     void RandomizeAttribute()
     {
         attributeText.text = $"Sort the animals in Red or Blue buckets";
     }
 
+    // Instantiates and displays all animal cards in random order
     void SpawnCards()
     {
         allCards = allCards.OrderBy(x => System.Guid.NewGuid()).ToList();
@@ -65,6 +91,7 @@ public class QuizManager : MonoBehaviour
         }
     }
 
+    // Shows the animal's description and image in the popup panel
     public void ShowDescription(AnimalCardData data)
     {
         popupPanel.SetActive(true);
@@ -73,6 +100,7 @@ public class QuizManager : MonoBehaviour
         popupImage.sprite = data.animalImage;
     }
 
+    // Randomly selects which attribute will be used for sorting and assigns it to buckets
     private void RandomlyDecide()
     {
         int random = UnityEngine.Random.Range(0, 5);
@@ -80,6 +108,7 @@ public class QuizManager : MonoBehaviour
         string typeA = "";
         string typeB = "";
 
+        // Decide which attribute type to use based on random value
         switch (random)
         {
             case 0:
@@ -103,9 +132,11 @@ public class QuizManager : MonoBehaviour
                 typeB = AnimalInformation.ReproductionType.LayEggs.ToString();
                 break;
         }
+        // Set bucket labels with selected types
         blueBucket.SetType(typeA);
         redBucket.SetType(typeB);
-        /* // Randomly assign which bucket gets which type
+
+        /* // Optionally randomize which bucket gets which type
          if (Random.value > 0.5f)
          {
              blueBucket.SetType(typeA);
@@ -119,6 +150,7 @@ public class QuizManager : MonoBehaviour
          */
     }
 
+    // Checks if the dropped card matches the assigned bucket type and updates score
     public void MatchCard(CardUI card, string boxCategory)
     {
         if (card.Data.flightType.ToString() == boxCategory || card.Data.insectType.ToString() == boxCategory || card.Data.dietType.ToString() == boxCategory || card.Data.socialType.ToString() == boxCategory || card.Data.reproductionType.ToString() == boxCategory)
@@ -127,6 +159,7 @@ public class QuizManager : MonoBehaviour
             wrongCards.Add(card.Data.name, card.Data.animalImage);
 
         totalCount++;
+        // If all cards are processed, show result screen
         if (totalCount == allCards.Count)
         {
             EvaluateScore();
@@ -140,11 +173,13 @@ public class QuizManager : MonoBehaviour
         }
     }
 
+    // Calculates the final score percentage and updates result text
     private void EvaluateScore()
     {
         float percentage = (totalCount > 0) ? (correctCount * 100f) / totalCount : 0f;
         string message = "";
 
+        // Set message based on score percentage
         if (percentage == 100f)
         {
             message = "Excellent";
@@ -165,6 +200,7 @@ public class QuizManager : MonoBehaviour
         scoreText.text = $"Score: {correctCount}/{totalCount}\n{message}";
     }
 
+    // Reloads the current scene to restart the quiz
     private void ReloadCurrentScene()
     {
         Scene currentScene = SceneManager.GetActiveScene();
